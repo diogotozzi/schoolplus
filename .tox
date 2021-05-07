@@ -1,0 +1,10 @@
+[tox]
+envlist = py39
+
+skip_install = true
+
+whitelist_externals =
+    make
+
+commands =
+    make test
