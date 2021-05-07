@@ -1,0 +1,23 @@
+# Distribution / packaging
+bin/
+env/
+include/
+lib/
+lib64/
+__pycache__/
+
+# General files
+my.cnf
+*.py[cod]
+pyvenv.cfg
+
+# Django stuff:
+*.log
+*.pot
+
+# Unit tests / coverage reports
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
