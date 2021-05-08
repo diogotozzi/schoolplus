@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "0bb6db49-b1de-437b-af0f-d7262e4555b3",
+		"name": "schoolplus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "student",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://schoolplus.localhost/api/v1/student",
+					"protocol": "https",
+					"host": [
+						"schoolplus",
+						"localhost"
+					],
+					"path": [
+						"api",
+						"v1",
+						"student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "student",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"type": "text"
+						},
+						{
+							"key": "birthdate",
+							"value": "01/01/2000",
+							"type": "text"
+						},
+						{
+							"key": "rg",
+							"value": "00.000.000-0",
+							"type": "text"
+						},
+						{
+							"key": "cpf",
+							"value": "000.000.000-00",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://schoolplus.localhost/api/v1/student",
+					"protocol": "https",
+					"host": [
+						"schoolplus",
+						"localhost"
+					],
+					"path": [
+						"api",
+						"v1",
+						"student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "student",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://schoolplus.localhost/api/v1/student/11",
+					"protocol": "https",
+					"host": [
+						"schoolplus",
+						"localhost"
+					],
+					"path": [
+						"api",
+						"v1",
+						"student",
+						"11"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

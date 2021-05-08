@@ -12,6 +12,11 @@ clean:
 install: # Install the project
 	docker-compose up &
 
+migrate:
+	docker exec python python manage.py makemigrations api
+	docker exec python python manage.py sqlmigrate api
+	docker exec python python manage.py migrate
+
 start:
 	docker-compose start
 

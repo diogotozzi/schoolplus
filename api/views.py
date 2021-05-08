@@ -1,17 +1,47 @@
-from django.http import JsonResponse
+from django.core.serializers import serialize
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404
 from django.views import View
+
+from .models import Student
+
+from datetime import datetime
+import json
 
 
 class StudentView(View):
 
-    def get(self, request, student_id=0):
-        return JsonResponse({'student id': student_id})
+    def get(self, request, student_id=None):
+        if not student_id:
+            return JsonResponse({}, status=400)
+
+        student = get_object_or_404(Student, pk=student_id)
+        # student = Student.objects.filter(pk=student_id, deleted=None)
+
+        return JsonResponse(student, safe=False)
 
     def post(self, request):
-        pass
+        birthday = datetime.strptime(request.POST['birthdate'], '%d/%m/%Y')
 
-    def delete(self, request, student_id=0):
-        pass
+        student = Student.objects.create(
+            name = request.POST['name'],
+            birthdate = birthday,
+            rg = request.POST['rg'],
+            cpf = request.POST['cpf'],
+            created = datetime.now(),
+        )
+
+        return JsonResponse({'student_id': student.id}, status=201)
+
+    def delete(self, request, student_id=None):
+        if not student_id:
+            return JsonResponse({}, status=400)
+
+        student = get_object_or_404(Student, pk=student_id)
+        student.deleted = datetime.now()
+        student.save()
+
+        return JsonResponse({}, status=204)
 
 
 class TeacherView(View):
