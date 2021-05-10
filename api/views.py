@@ -1,6 +1,5 @@
 from django.core.serializers import serialize
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 from django.views import View
 
 from .models import Student
@@ -13,12 +12,36 @@ class StudentView(View):
 
     def get(self, request, student_id=None):
         if not student_id:
-            return JsonResponse({}, status=400)
+            students = Student.objects.filter(deleted=None).values()
+            return JsonResponse({'result': list(students)}, status=200)
 
-        student = get_object_or_404(Student, pk=student_id)
-        # student = Student.objects.filter(pk=student_id, deleted=None)
+        student = Student.objects.filter(pk=student_id, deleted=None).values()
 
-        return JsonResponse(student, safe=False)
+        if not student:
+            return JsonResponse({'result': []}, status=404)
+
+        return JsonResponse({'result': list(student)})
+
+    def patch(self, request, student_id=None):
+        if not student_id:
+            return JsonResponse({'result': []}, status=400)
+
+        student = Student.objects.filter(pk=student_id, deleted=None)
+
+        if not student:
+            return JsonResponse({'result': []}, status=404)
+
+        # TODO: Use match statement in PEP 634 - https://www.python.org/dev/peps/pep-0634/
+        changes = dict()
+        for item in ['name', 'birthdate', 'rg', 'cpf']:
+            if item == 'birthdate':
+                changes[item] = datetime.strptime(request.PATCH['birthdate'], '%d/%m/%Y')
+                continue
+            changes[item] = request.PATCH[item] if item in request.PATCH else None
+
+        student.update(**changes)
+
+        return JsonResponse({'result': []}, status=200)
 
     def post(self, request):
         birthday = datetime.strptime(request.POST['birthdate'], '%d/%m/%Y')
@@ -35,13 +58,17 @@ class StudentView(View):
 
     def delete(self, request, student_id=None):
         if not student_id:
-            return JsonResponse({}, status=400)
+            return JsonResponse({'result': []}, status=400)
 
-        student = get_object_or_404(Student, pk=student_id)
+        student = Student.objects.get(pk=student_id, deleted=None)
+
+        if not student:
+            return JsonResponse({'result': []}, status=404)
+
         student.deleted = datetime.now()
         student.save()
 
-        return JsonResponse({}, status=204)
+        return JsonResponse({'result': []}, status=204)
 
 
 class TeacherView(View):

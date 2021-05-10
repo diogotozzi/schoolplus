@@ -1,4 +1,4 @@
-.PHONY: install
+.PHONY: bash clean install migrate start stop test lint
 
 bash:
 	docker exec -ti python /bin/ash
@@ -14,7 +14,7 @@ install: # Install the project
 
 migrate:
 	docker exec python python manage.py makemigrations api
-	docker exec python python manage.py sqlmigrate api
+	docker exec python python manage.py sqlmigrate api 0001
 	docker exec python python manage.py migrate
 
 start:
