@@ -1,4 +1,4 @@
-.PHONY: bash clean install migrate start stop test lint
+.PHONY: bash clean install migration start stop test lint
 
 bash:
 	docker exec -ti python /bin/ash
@@ -9,10 +9,10 @@ clean:
 	find . -name '*~' -exec sudo rm -f {} +
 	find . -name '__pycache__' -exec sudo rm -fr {} +
 
-install: # Install the project
+install: # Install the project, first run
 	docker-compose up &
 
-migrate:
+migration:
 	docker exec database mysql -h localhost -u root -proot -e "CREATE SCHEMA IF NOT EXISTS schoolplus DEFAULT CHARACTER SET utf8mb4;"
 	docker exec python python manage.py makemigrations api
 	docker exec python python manage.py sqlmigrate api 0001
