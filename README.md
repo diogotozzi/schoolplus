@@ -5,6 +5,7 @@
 
 ## Features
 
+- Alpine Linux (very light!)
 - Python +3.9
 - Docker
 - MySQL +8.0
