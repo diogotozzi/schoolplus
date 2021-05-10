@@ -24,7 +24,7 @@ stop:
 	docker-compose stop
 
 test: clean lint
-	docker exec python python manage.py test
+	docker exec python python manage.py test --no-input
 
 lint:
 	docker exec python flake8 schoolplus api

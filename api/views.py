@@ -1,11 +1,9 @@
-from django.core.serializers import serialize
+from datetime import datetime
+
 from django.http import JsonResponse
 from django.views import View
 
 from .models import Student
-
-from datetime import datetime
-import json
 
 
 class StudentView(View):
@@ -47,11 +45,11 @@ class StudentView(View):
         birthday = datetime.strptime(request.POST['birthdate'], '%d/%m/%Y')
 
         student = Student.objects.create(
-            name = request.POST['name'],
-            birthdate = birthday,
-            rg = request.POST['rg'],
-            cpf = request.POST['cpf'],
-            created = datetime.now(),
+            name=request.POST['name'],
+            birthdate=birthday,
+            rg=request.POST['rg'],
+            cpf=request.POST['cpf'],
+            created=datetime.now(),
         )
 
         return JsonResponse({'student_id': student.id}, status=201)

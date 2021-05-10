@@ -19,7 +19,7 @@ class Student(models.Model):
     rg = models.CharField(max_length=14, null=True)
     cpf = models.CharField(max_length=14, null=True)
     grade = models.ForeignKey(Grade, on_delete=models.CASCADE, null=True)
-    classrooms = models.ManyToManyField(ClassRoom, null=True)
+    classrooms = models.ManyToManyField(ClassRoom)
     created = models.DateField('created', null=True)
     deleted = models.DateField('deleted', null=True, db_index=True)
 

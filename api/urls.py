@@ -1,7 +1,6 @@
 from django.urls import path
 from api.views import StudentView, TeacherView, ClassRoomView, GradeView
 
-from . import views
 
 urlpatterns = [
     path('student/<int:student_id>', StudentView.as_view()),

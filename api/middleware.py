@@ -13,13 +13,13 @@ class JSONParsingMiddleware:
                 request.POST = json.loads(request.body)
             except ValueError as ve:
                 return HttpResponseBadRequest('unable to parse JSON data. Error : {0}'.format(ve))
-        
+
         if request.method == 'PUT' and request.content_type == "application/json":
             try:
                 request.PUT = json.loads(request.body)
             except ValueError as ve:
                 return HttpResponseBadRequest('unable to parse JSON data. Error : {0}'.format(ve))
-        
+
         if request.method == 'PATCH' and request.content_type == "application/json":
             try:
                 request.PATCH = json.loads(request.body)
