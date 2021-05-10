@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.views import View
 
@@ -42,6 +43,10 @@ class StudentView(View):
         return JsonResponse({'result': []}, status=200)
 
     def post(self, request):
+        for item in ['name', 'birthdate', 'rg', 'cpf']:
+            if item not in request.POST:
+                return JsonResponse({'result': []}, status=400)
+
         birthday = datetime.strptime(request.POST['birthdate'], '%d/%m/%Y')
 
         student = Student.objects.create(
@@ -52,21 +57,21 @@ class StudentView(View):
             created=datetime.now(),
         )
 
-        return JsonResponse({'student_id': student.id}, status=201)
+        return JsonResponse({'result': {'student_id': student.id}}, status=201)
 
     def delete(self, request, student_id=None):
         if not student_id:
             return JsonResponse({'result': []}, status=400)
 
-        student = Student.objects.get(pk=student_id, deleted=None)
+        try:
+            student = Student.objects.get(pk=student_id, deleted=None)
 
-        if not student:
+            student.deleted = datetime.now()
+            student.save()
+        except ObjectDoesNotExist:
             return JsonResponse({'result': []}, status=404)
 
-        student.deleted = datetime.now()
-        student.save()
-
-        return JsonResponse({'result': []}, status=204)
+        return JsonResponse({'result': []}, status=200)
 
 
 class TeacherView(View):

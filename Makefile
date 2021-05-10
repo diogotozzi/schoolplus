@@ -13,6 +13,7 @@ install: # Install the project
 	docker-compose up &
 
 migrate:
+	docker exec database mysql -h localhost -u root -proot -e "CREATE SCHEMA IF NOT EXISTS schoolplus DEFAULT CHARACTER SET utf8mb4;"
 	docker exec python python manage.py makemigrations api
 	docker exec python python manage.py sqlmigrate api 0001
 	docker exec python python manage.py migrate
@@ -27,4 +28,4 @@ test: clean lint
 	docker exec python python manage.py test --no-input
 
 lint:
-	docker exec python flake8 schoolplus api
+	docker exec python flake8 schoolplus api --exclude api/migrations/

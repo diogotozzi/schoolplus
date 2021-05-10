@@ -2,3 +2,4 @@ Django==3.2.2
 mysqlclient==2.0.3
 uWSGI==2.0.19.1
 flake8==3.9.1
+freezegun==0.1.11
